@@ -1,0 +1,13 @@
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+node_modules/
+.DS_Store
+.sass-cache/
+npm-debug.log
+files/
+.env
+build/
+.eslintrc.js

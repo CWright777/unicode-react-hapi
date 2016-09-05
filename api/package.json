@@ -1,0 +1,31 @@
+{
+  "name": "cldr",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "nodemon server.js --exec babel-node --presets es2015",
+    "test": "nodemon import/import.js --exec babel-node --presets es2015"
+  },
+  "dependencies": {
+    "boom": "^4.0.0",
+    "dotenv": "^2.0.0",
+    "fs": "0.0.1-security",
+    "glue": "^3.3.0",
+    "hapi": "^13.3.0",
+    "hapi-routes": "^2.1.2",
+    "hapi-sequelize": "^2.2.4",
+    "joi": "^8.4.0",
+    "mocha": "^3.0.2",
+    "path": "^0.12.7",
+    "pg": "^4.5.2",
+    "pg-hstore": "^2.3.2",
+    "qs": "^6.2.1",
+    "sequelize": "^3.23.6",
+    "tv": "^5.0.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.7.7",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-stage-2": "^6.5.0"
+  }
+}
