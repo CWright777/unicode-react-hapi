@@ -17,6 +17,7 @@ module.exports = function (sequelize, DataTypes) {
           otherKey: 'locale_id',
           //constraints: false
         });
+        Locale.belongsTo(models.language)
         Locale.belongsTo(models.territory)
         Locale.belongsTo(models.script)
       },

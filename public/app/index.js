@@ -7,17 +7,18 @@ import useScroll from 'react-router-scroll';
 import { createStore, applyMiddleware } from 'redux';
 import {Provider} from 'react-redux';
 import thunkMiddleware from 'redux-thunk'
-import createLogger from 'redux-logger'
+import createLogger from 'redux-logger';
 import App from './containers/App';
 import configureStore from './store/configureStore';
 import Dashboard from './containers/Dashboard'
+import './style/main.css';
 
 const store = configureStore();
 
 const routes = (
  <Route path="/" component={App} >
-    <IndexRoute component={Dashboard}/>
-  </Route>
+   <IndexRoute component={Dashboard}/>
+ </Route>
 )
 
 ReactDOM.render(

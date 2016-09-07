@@ -8,8 +8,6 @@ const targets = 'node_modules/cldr-misc-full/main/';
 
 const sequelize = new Sequelize(require('../config/db'))
 
-
-            //db.delimiter.create({property:"ds",value:'3'})
 fs.readdir( targets, (err,files) => {
   if( err ) {
     throw err
@@ -25,27 +23,7 @@ fs.readdir( targets, (err,files) => {
           const localeKey = Object.keys(parsedObject)[0];
           const localeInfo = parsedObject[localeKey]
 
-            total(db,localeInfo,file).then((locale)=>{
-              Object.keys(localeInfo.delimiters).forEach( (property) => {
-                db.delimiter.findOne({
-                  where: {
-                    property: property,
-                    value: localeInfo.delimiters[property]
-                  }
-                }).then((delimiter) => {
-                  if(delimiter){
-                    delimiter.addLocale(locale[0].dataValues.id)
-                  } else {
-                    db.delimiter.create({
-                      property: property,
-                      value: localeInfo.delimiters[property],
-                    }).then((newDelimiter)=>{
-                     newDelimiter.addLocale(locale[0].dataValues.id)
-                    })
-                  }
-                })
-              })
-            })
+          processLocale(db,localeInfo,file)
           fs.close(temp)
         })
       })
@@ -53,21 +31,21 @@ fs.readdir( targets, (err,files) => {
   })
 })
 
-const total = (db,localeInfo,localeName) => {
+const processLocale = (db,localeInfo,localeName) => {
   return Bluebird.coroutine(function* () {
       try {
-        const identity = yield createOrFindIdentityRecords(db,localeInfo);
+        const identity = yield createOrFindIdentityRecords(localeInfo);
+
         const locale = yield createLocale(identity,localeName);
-        return locale
-        //Object.keys(localeInfo.delimiters).forEach( (property) => {
-        //}
+
+        const delimiters = yield findOrCreateDelimiters(localeInfo,locale[0].dataValues.id)
       } catch (err) {
         throw err;
       }
   })();
 }
 
-const createOrFindIdentityRecords = (db,localeInfo) => {
+const createOrFindIdentityRecords = (localeInfo) => {
     const langName = localeInfo.identity.language;
     const terrName = localeInfo.identity.territory;
     const scriptName = localeInfo.identity.script;
@@ -93,11 +71,6 @@ const createOrFindIdentityRecords = (db,localeInfo) => {
           })
           identity.territory = territory[0]
         }
-        //const identity = {
-          //language: language[0],
-          //territory: territory[0],
-          //script: script[0]
-        //}
         return identity
       } catch (err) {
         throw err;
@@ -123,23 +96,31 @@ const createLocale = (identity,localeName) => {
   })();
 }
 
-const findDelimiter = (db,property,value) => {
-    //console.log(localeInfo.delimiters[property])
-  db.delimiter.findOne({
-    where: {
-      property: property,
-      value: localeInfo.delimiters[property]
-    }
-  })
+const findOrCreateDelimiters = (localeInfo,localeId) => {
+  return Bluebird.coroutine(function* () {
+    try {
+      Object.keys(localeInfo.delimiters).forEach( (property) => {
+        db.delimiter.findOrCreate({
+          where: {
+            property: property,
+            value: localeInfo.delimiters[property],
+          }
+        }).then((delimiter)=>{
+          delimiter[0].addLocale(localeId)
+        })
+      })
+      } catch (err) {
+        throw err;
+      }
+  })();
 }
 
-
-const digDeep = (e,callback) => {
-  let result =[];
-  Object.keys(e).forEach((key) => {
-    if(typeof e[key] === 'object'){
-      result.push(e,e[key])
-    }
-  })
-  callback(result)
-}
+//const digDeep = (e,callback) => {
+  //let result =[];
+  //Object.keys(e).forEach((key) => {
+    //if(typeof e[key] === 'object'){
+      //result.push(e,e[key])
+    //}
+  //})
+  //callback(result)
+//}

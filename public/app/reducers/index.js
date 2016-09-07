@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import temp from './temp'
+import delimiter from './delimiter'
 
 const rootReducer = combineReducers({
-  temp
+  delimiter
 })
 
 export default rootReducer

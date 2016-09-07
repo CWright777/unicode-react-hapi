@@ -16,9 +16,12 @@ exports.routes = (server) => {
 
             Locale.findAll({
               where: query,
-            }).then(locale => {
+              include: [{
+                model:  req.models.language,
+              }]
+            }).then(delimiters => {
               reply({
-                locale,
+                delimiters,
               });
             }, err => {
               reply(

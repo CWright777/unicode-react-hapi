@@ -2,6 +2,7 @@ const path = require('path');
 const Webpack = require('webpack');
 const merge = require('webpack-merge');
 const NpmInstallPlugin = require('npm-install-webpack-plugin');
+//const Grommet = `${__dirname}/grommet/scss/grommet-core`
 //const Neat = require('node-neat').includePaths.concat('./node_modules/breakpoint-sass/stylesheets/')
 
 const TARGET = process.env.npm_lifecycle_event;
@@ -30,15 +31,15 @@ const common = {
         //loader: "style!css!sass?includePaths[]= " +  sassPaths,
         //include: PATHS.app,
       //},
-      //{
-        //test: /\.scss$/,
-        //loader: "style!css!sass?includePaths[]=" + [Neat[0][0],Neat[1]],
-        //include: PATHS.app
-      //},
-      //{
-        //test: /\.css$/,
-        //loader: 'style!css?sourceMap' 
-      //},
+      {
+        test: /\.scss$/,
+        loader: "style!css!sass?includePaths[]=", //+ [Grommet],//+ [Neat[0][0],Neat[1]],
+        include: PATHS.app
+      },
+      {
+        test: /\.css$/,
+        loader: 'style!css?sourceMap' 
+      },
       //{
         //test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
         //loader: "url?limit=10000&mimetype=application/font-woff"
