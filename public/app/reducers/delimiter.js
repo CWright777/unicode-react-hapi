@@ -29,7 +29,7 @@ export default function delimiter(state = defaultState, action) {
       .filter((val,id,arr) => arr.indexOf(val) == id)
       .map((property)=>{
         return {
-          label:property.replace(/([A-Z])/g, ' $1').replace(/^./, function(str){ return str.toUpperCase(); }),
+          label:property.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase()),
           value:property
         }
       })
@@ -50,17 +50,30 @@ export default function delimiter(state = defaultState, action) {
       const { selectedDelimiter } = action
 
       const languages = selectedDelimiter.delimiter.locales.map((locale, i) => {
-
         const langNamesArr = CountryLanguage.getLanguage(locale.language.name).name
         return langNamesArr ? langNamesArr[0] : undefined
+      })
+      .filter((val,id,arr) => (arr.indexOf(val) == id && val != undefined))
 
+      const territories = selectedDelimiter.delimiter.locales.map((locale, i) => {
+        const terrCode = locale.territory ? locale.territory.name : ""
+        const terrNamesArr = CountryLanguage.getCountry(terrCode).name
+        return terrNamesArr
+      })
+      .filter((val,id,arr) => (arr.indexOf(val) == id && val != undefined))
+
+      const scripts = selectedDelimiter.delimiter.locales.map((locale, i) => {
+        const scriptName = locale.script ? locale.script.name : undefined;
+        return scriptName
       })
       .filter((val,id,arr) => (arr.indexOf(val) == id && val != undefined))
 
       return Object.assign({}, state, {
         isRelationalTabsHidden: false,
         selectedDelimiter: selectedDelimiter.delimiter,
-        languages
+        languages,
+        territories,
+        scripts
       })
     default:
       return state;

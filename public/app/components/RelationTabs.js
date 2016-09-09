@@ -8,30 +8,23 @@ import {
 import CountryLanguage from 'country-language';
 
 const RelationTabs = props => {
-  const temp = props.languages.map((language, i) => {
-    return (
-      <span key={i}>{language}</span>
-    )
-  })
   return (
     <Section>
       <Tabs justify="start">
         <Tab title='Languages'>
-          <Section>
-            <Columns
-              masonry={true}
-              justify='center'
-              size='medium'
-            >
-            {
-              temp
-            }
-            </Columns>
-          </Section>
+          <RelationList
+            items={props.languages}
+          />
         </Tab>
         <Tab title='Territories'>
+          <RelationList
+            items={props.territories}
+          />
         </Tab>
         <Tab title='Scripts'>
+          <RelationList
+            items={props.scripts}
+          />
         </Tab>
       </Tabs>
     </Section>
@@ -39,10 +32,22 @@ const RelationTabs = props => {
 }
 
 const RelationList = props => {
-  conosle.log(props)
   return(
-    {
-    }
+    <Section>
+      <Columns
+        masonry={true}
+        justify='center'
+        size='large'
+      >
+      {
+        props.items.map((item, i) => {
+          return (
+            <span key={i}>{item}</span>
+          )
+        })
+      }
+      </Columns>
+    </Section>
   )
 };
 

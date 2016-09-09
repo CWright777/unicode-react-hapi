@@ -54,6 +54,9 @@ exports.routes = (server) => {
                     model: req.models.territory,
                     attributes: ['name','id'],
                     
+                  }, {
+                    model: req.models.script,
+                    attributes: ['name','id'],
                   }
                 ]
               }],
