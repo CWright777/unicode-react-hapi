@@ -4,6 +4,7 @@ import {
   PROPERTY_RELATION_INFO_FULFILLED,
   SHOW_SELECTED_DELIMITER_INFO
 } from '../actions/delimiters/types';
+import CountryLanguage from 'country-language';
 
 const defaultState = {
   delimiters: [],
@@ -25,7 +26,7 @@ export default function delimiter(state = defaultState, action) {
       //TODO: Clean up reducer especially chanined function
       const properties = delimiters
       .map((delimiter)=>delimiter.property)
-      .filter((val,id,array) => array.indexOf(val) == id)
+      .filter((val,id,arr) => arr.indexOf(val) == id)
       .map((property)=>{
         return {
           label:property.replace(/([A-Z])/g, ' $1').replace(/^./, function(str){ return str.toUpperCase(); }),
@@ -48,9 +49,18 @@ export default function delimiter(state = defaultState, action) {
     case SHOW_SELECTED_DELIMITER_INFO:
       const { selectedDelimiter } = action
 
+      const languages = selectedDelimiter.delimiter.locales.map((locale, i) => {
+
+        const langNamesArr = CountryLanguage.getLanguage(locale.language.name).name
+        return langNamesArr ? langNamesArr[0] : undefined
+
+      })
+      .filter((val,id,arr) => (arr.indexOf(val) == id && val != undefined))
+
       return Object.assign({}, state, {
         isRelationalTabsHidden: false,
-        selectedDelimiter: selectedDelimiter.delimiter
+        selectedDelimiter: selectedDelimiter.delimiter,
+        languages
       })
     default:
       return state;

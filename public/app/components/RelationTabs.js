@@ -1,26 +1,33 @@
-
 import React, { Component } from 'react';
 import {
   Tabs,
   Tab,
-  Section
+  Section,
+  Columns,
 } from 'grommet';
+import CountryLanguage from 'country-language';
 
 const RelationTabs = props => {
-  const temp = props.selectedDelimiter.locales.map((locale, i) => {
+  const temp = props.languages.map((language, i) => {
     return (
-      <div key={i}>
-        {locale.language.name}
-      </div>
+      <span key={i}>{language}</span>
     )
   })
   return (
     <Section>
       <Tabs justify="start">
         <Tab title='Languages'>
-          {
-            temp
-          }
+          <Section>
+            <Columns
+              masonry={true}
+              justify='center'
+              size='medium'
+            >
+            {
+              temp
+            }
+            </Columns>
+          </Section>
         </Tab>
         <Tab title='Territories'>
         </Tab>

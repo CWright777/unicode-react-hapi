@@ -58,6 +58,7 @@ export class Dashboard extends Component {
             ? null
             :<RelationTabs
               selectedDelimiter={this.props.selectedDelimiter}
+              languages={this.props.languages}
             />}
         </Section>
       </Section>
@@ -72,8 +73,9 @@ function mapStateToProps(state) {
     properties,
     propertyRelationInfo,
     property,
+    languages,
     isRelationalTabsHidden,
-    selectedDelimiter
+    selectedDelimiter,
   } = state.delimiter || {
     isFetching: true,
     delimiters: [],
@@ -81,7 +83,8 @@ function mapStateToProps(state) {
     propertyRelationInfo: [],
     property: {},
     isRelationalTabsHidden: true,
-    selectedDelimiter
+    selectedDelimiter,
+    languages
   }
   return {
     isFetching,
@@ -90,7 +93,8 @@ function mapStateToProps(state) {
     property,
     propertyRelationInfo,
     isRelationalTabsHidden,
-    selectedDelimiter
+    selectedDelimiter,
+    languages
   }
 }
 
