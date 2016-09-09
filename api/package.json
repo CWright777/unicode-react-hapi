@@ -7,6 +7,7 @@
     "test": "nodemon import/import.js --exec babel-node --presets es2015"
   },
   "dependencies": {
+    "blipp": "^2.3.0",
     "boom": "^4.0.0",
     "dotenv": "^2.0.0",
     "fs": "0.0.1-security",

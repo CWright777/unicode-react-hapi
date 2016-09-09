@@ -2,13 +2,15 @@ import {
   SENT_REQUEST_PENDING,
   SENT_REQUEST_FULFILLED,
   PROPERTY_RELATION_INFO_FULFILLED,
+  SHOW_SELECTED_DELIMITER_INFO
 } from '../actions/delimiters/types';
 
 const defaultState = {
   delimiters: [],
   properties: [],
   propertyRelationInfo: [],
-  property: {}
+  property: {},
+  isRelationalTabsHidden: true
 }
 
 export default function delimiter(state = defaultState, action) {
@@ -42,6 +44,13 @@ export default function delimiter(state = defaultState, action) {
       return Object.assign({}, state, {
         propertyRelationInfo,
         property
+      })
+    case SHOW_SELECTED_DELIMITER_INFO:
+      const { selectedDelimiter } = action
+
+      return Object.assign({}, state, {
+        isRelationalTabsHidden: false,
+        selectedDelimiter: selectedDelimiter.delimiter
       })
     default:
       return state;

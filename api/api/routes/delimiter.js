@@ -16,16 +16,6 @@ exports.routes = (server) => {
 
             Delimiter.findAll({
               where: query,
-              attributes: ['property','value','id'],
-              include: [{
-                model:  req.models.locale, as: 'locales',
-                attributes: ['name','id'],
-                include: [{
-                  model: req.models.language,
-                  attributes: ['name','id'],
-                }]
-              }],
-          
             }).then(delimiters => {
               reply({
                 delimiters,
@@ -38,44 +28,55 @@ exports.routes = (server) => {
           },
         },
       },
-      //{
-        //method: 'GET',
-        //path: '/delimiter/:id/',
-        //config: {
-          //description: 'Get all delimiters',
-          //tags: ['api'],
-          //auth: false,
-          //handler: (req, reply) => {
-            //const Delimiter = req.models.delimiter;
-            //const query = qs.parse(req.query);
+      {
+        method: 'GET',
+        path: '/delimiter/{id}/',
+        config: {
+          description: 'Get all delimiters',
+          tags: ['api'],
+          auth: false,
+          handler: (req, reply) => {
+            const Delimiter = req.models.delimiter;
+            const query = qs.parse(req.query);
+            query.id = req.params.id;
 
-            //Delimiter.findAll({
-              //where: query,
-              //attributes: ['property','value','id'],
+            Delimiter.findOne({
+              where: query,
+              attributes: ['property','value','id'],
+              include: [{
+                model:  req.models.locale, as: 'locales',
+                attributes: ['name','id'],
+                include: [
+                  {
+                    model: req.models.language,
+                    attributes: ['name','id'],
+                  }, {
+                    model: req.models.territory,
+                    attributes: ['name','id'],
+                    
+                  }
+                ]
+              }],
+            }).then(delimiter => {
+              reply({
+                delimiter,
+              });
+            }, err => {
+              reply(
+                Boom.badRequest(err)
+              );
+            });
+          },
+        },
+      },
+
               //include: [{
                 //model:  req.models.locale, as: 'locales',
-                //where: {
-                  //delimiters:
-                //}
                 //attributes: ['name','id'],
                 //include: [{
                   //model: req.models.language,
                   //attributes: ['name','id'],
                 //}]
-              //}],
-          
-            //}).then(delimiters => {
-              //reply({
-                //delimiters,
-              //});
-            //}, err => {
-              //reply(
-                //Boom.badRequest(err)
-              //);
-            //});
-          //},
-        //},
-      //},
   //server.route([
    //{
       //method: 'GET',
@@ -99,3 +100,17 @@ exports.routes = (server) => {
     //},
   ]);
 };
+            //Delimiter.findAll({
+              //where: query,
+              //attributes: ['property','value','id'],
+              //include: [{
+                //model:  req.models.locale, as: 'locales',
+                //where: {
+                  //delimiters:
+                //}
+                //attributes: ['name','id'],
+                //include: [{
+                  //model: req.models.language,
+                  //attributes: ['name','id'],
+                //}]
+              //}],

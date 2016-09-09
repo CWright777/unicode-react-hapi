@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getDelimiters, getPropertyRelationInfo } from '../actions/delimiters/index';
+import {
+  getDelimiters,
+  getPropertyRelationInfo,
+  getSingleDelimiterInfo
+} from '../actions/delimiters/index';
 import {
   Heading,
   Section,
@@ -10,17 +14,14 @@ import {
   Tabs,
   Tab,
 } from 'grommet';
-import Select from 'react-select';
-import { UnicodeBrick } from '../components/UnicodeBrick';
-import 'react-select/dist/react-select.css';
+import UnicodeBricks from '../components/UnicodeBricks';
+import SelectorHeading from '../components/SelectorHeading';
+import RelationTabs from '../components/RelationTabs';
+import { SHOW_SELECTED_DELIMITER_INFO } from '../actions/delimiters/types';
 
 export class Dashboard extends Component {
   constructor(props) {
     super(props)
-
-    this.state = {
-      showRelationTabs: false,
-    }
 
     this.onSelectProperty = this.onSelectProperty.bind(this);
     this.clickBrick = this.clickBrick.bind(this);
@@ -30,66 +31,34 @@ export class Dashboard extends Component {
   onSelectProperty(property){
     getPropertyRelationInfo(property)(this.props.dispatch)
   }
-  clickBrick(){
-    this.setState({
-      ...this.state,
-      showRelationTabs: true
-    })
+
+  clickBrick(selectedDelimiter){
+    const delimiterId = selectedDelimiter.id
+    getSingleDelimiterInfo(delimiterId)(this.props.dispatch)
   }
+
   componentDidMount(property){
     getDelimiters(property)(this.props.dispatch)
   }
+
   render(){
     return (
       <Section align='center'>
-        <Section align='center'>
-          <Heading>
-            'Delimiters'
-          </Heading>
-          <Heading tag='h4' align='start'>
-            Select a delimiter property!
-          </Heading>
-          <Select
-            value={this.props.property.value}
-            options={this.props.properties}
-            onChange={(option) => this.onSelectProperty(option)}
-            matchPos='start'
-            placeholder='Delimiter Property'
-            backspaceRemoves={false}
-            wrapperStyle={{width: 'auto',minWidth: '300px',alignText: 'center'}}
-            inputProps={{className: 'selectFixCursor'}}
+        <SelectorHeading
+          onChange={this.onSelectProperty}
+          options={this.props.properties}
+          value={this.props.property.value}
+        />
+        <Section pad='medium' style={{width: '80%'}}>
+          <UnicodeBricks
+            onClick={this.clickBrick}
+            value={this.props.propertyRelationInfo}
           />
-        </Section>
-        <Section pad='small' style={{width: '90%'}}>
-          <Section>
-            <Bricks>
-            {
-                this.props.propertyRelationInfo
-                .map((property, i) => {
-                  return (
-                    <UnicodeBrick
-                      onClick={this.clickBrick}
-                      key={property}
-                      value={property.value}
-                      colorIndex="neutral-3"
-                    />
-                  )
-                })
-            }
-            </Bricks>
-          </Section>
-          <Section>
-            <Tabs justify="start">
-              <Tab title='Languages'>
-                
-              </Tab>
-              <Tab title='Locales'>
-                <h1>ads</h1>
-              </Tab>
-              <Tab title='Scripts'>
-              </Tab>
-            </Tabs>
-          </Section>
+          { this.props.isRelationalTabsHidden
+            ? null
+            :<RelationTabs
+              selectedDelimiter={this.props.selectedDelimiter}
+            />}
         </Section>
       </Section>
     )
@@ -102,13 +71,17 @@ function mapStateToProps(state) {
     delimiters,
     properties,
     propertyRelationInfo,
-    property
+    property,
+    isRelationalTabsHidden,
+    selectedDelimiter
   } = state.delimiter || {
     isFetching: true,
     delimiters: [],
     properties: [],
     propertyRelationInfo: [],
-    property: {}
+    property: {},
+    isRelationalTabsHidden: true,
+    selectedDelimiter
   }
   return {
     isFetching,
@@ -116,6 +89,8 @@ function mapStateToProps(state) {
     properties,
     property,
     propertyRelationInfo,
+    isRelationalTabsHidden,
+    selectedDelimiter
   }
 }
 

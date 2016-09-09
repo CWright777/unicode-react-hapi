@@ -7,25 +7,15 @@ import {
 } from 'grommet';
 import { connect } from 'react-redux';
 
-export class Application extends Component {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
+const Application = props => {
     return (
       <App centered={false}>
         <AppHeader/>
         <Box>
-          {this.props.children}
+          {props.children}
         </Box>
       </App>
     )
-  }
 }
 
-function mapStateToProps(state) {
-  return state
-}
-
-export default connect(mapStateToProps)(withRouter(Application))
+export default Application

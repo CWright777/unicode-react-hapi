@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import {
+  Bricks,
   Brick,
   Heading,
   Value,
+  Section
 } from 'grommet';
 
 export const UnicodeBrick = props => {
-  console.log(props)
   const getCharCode = (char) => {
     return `U+${char.charCodeAt()}`;
   };
@@ -15,9 +16,8 @@ export const UnicodeBrick = props => {
 
   return(
     <Brick
-      onClick={props.clickBrick}
-      key={props.key}
-      colorIndex={props.colorIndex}
+      onClick={()=>props.onClick()}
+      colorIndex={"neutral-3"}
       direction='row'
       align='center'
       label={unicodeCharCode}
@@ -36,3 +36,25 @@ export const UnicodeBrick = props => {
     </Brick>
   )
 }
+export const UnicodeBricks = props => {
+  return(
+    <Section>
+      <Bricks>
+      {
+          props.value
+          .map((property, i) => {
+            return (
+              <UnicodeBrick
+                onClick={(key)=>props.onClick(property)}
+                key={i}
+                value={property.value}
+              />
+            )
+          })
+      }
+      </Bricks>
+    </Section>
+  )
+}
+
+export default UnicodeBricks
