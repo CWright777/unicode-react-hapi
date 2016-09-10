@@ -4,8 +4,9 @@ import {
   SENT_REQUEST_FULFILLED,
   PROPERTY_RELATION_INFO_FULFILLED,
   SHOW_SELECTED_DELIMITER_INFO,
+  DELIMITER_CREATION_FULLFILLED
 } from './types';
-import { sendGetRequest } from '../../services/api';
+import { sendGetRequest, sendPostRequest } from '../../services/api';
 
 export const sendRequest = () => {
   return {
@@ -62,5 +63,21 @@ export const getSingleDelimiterInfo = (delimiterId) => {
     sendGetRequest(`delimiter/${delimiterId}/`)
     .then(response => response.json())
     .then(json => dispatch(toggleShowRelationalTabs(json)))
+  }
+}
+
+export const receiveNewDelimiter = (createdDelimiter) => {
+  return {
+    type: DELIMITER_CREATION_FULLFILLED,
+    createdDelimiter
+  }
+}
+
+export const createNewDelimiter = (delimiterInfo) => {
+  return (dispatch) => {
+    dispatch(sendRequest())
+    sendPostRequest('delimiter' ,delimiterInfo)
+    .then(response => response.json())
+    .then(json => dispatch(receiveNewDelimiter(json)))
   }
 }

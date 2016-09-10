@@ -6,7 +6,8 @@ import { bindActionCreators } from 'redux';
 import {
   getDelimiters,
   getPropertyRelationInfo,
-  getSingleDelimiterInfo
+  getSingleDelimiterInfo,
+  createNewDelimiter,
 } from '../actions/delimiters/index';
 import {
   Heading,
@@ -38,6 +39,7 @@ export class Dashboard extends Component {
     this.clickBrick = this.clickBrick.bind(this);
     this.toggleAddDelimiterModal = this.toggleAddDelimiterModal.bind(this);
     this.handleDelimiterFormTyping = this.handleDelimiterFormTyping.bind(this);
+    this.submitDelimiter = this.submitDelimiter.bind(this);
   }
 
   toggleAddDelimiterModal(){
@@ -57,7 +59,13 @@ export class Dashboard extends Component {
   }
 
   submitDelimiter(){
-    
+    const { addDelimiterForm } = this.state;
+    const patchedObj = {
+      property: addDelimiterForm.name,
+      value: addDelimiterForm.value
+    }
+    createNewDelimiter(patchedObj)(this.props.dispatch);
+    this.toggleAddDelimiterModal()
   }
 
   handleDelimiterFormTyping(newInputValue,inputName){
@@ -78,7 +86,7 @@ export class Dashboard extends Component {
           onClose={this.toggleAddDelimiterModal}
           values={this.state.addDelimiterForm}
           onInputChange={(newInputValue,inputName) => this.handleDelimiterFormTyping(newInputValue,inputName)}
-          ref={ref => this.hand = ref}
+          submit={this.submitDelimiter}
         />
         <Section align='end' pad={{horizontal: 'large'}}>
           <Button
@@ -130,8 +138,8 @@ function mapStateToProps(state) {
     propertyRelationInfo: [],
     property: {},
     isRelationalTabsHidden: true,
-    selectedDelimiter,
-    languages
+    //selectedDelimiter,
+    //languages
   }
   return {
     isFetching,
@@ -143,7 +151,7 @@ function mapStateToProps(state) {
     selectedDelimiter,
     languages,
     scripts,
-    territories
+    territories,
   }
 }
 

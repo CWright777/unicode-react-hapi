@@ -59,7 +59,7 @@ export const AddDelimiterModal = props => {
         <Section align='end'>
           <Button
             label='Add Delimiter'
-            onClick={isValid}
+            onClick={props.submit}
           />
         </Section>
       </Form>

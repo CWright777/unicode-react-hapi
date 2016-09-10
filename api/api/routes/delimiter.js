@@ -29,6 +29,30 @@ exports.routes = (server) => {
         },
       },
       {
+        method: 'POST',
+        path: '/delimiter',
+        config: {
+          tags: ['api'],
+          auth: false,
+          description: 'Create a new delimiter',
+          handler: (req, reply) => {
+            const Delimiter = req.models.delimiter;
+            
+            const delimiterInfo = req.payload
+            Delimiter.create(delimiterInfo).then(delimiter => {
+              reply({
+                delimiter: delimiter.dataValues,
+              });
+            }, err => {
+              reply({
+                status: 500,
+                message: err,
+              });
+            });
+          },
+        },
+      },
+      {
         method: 'GET',
         path: '/delimiter/{id}/',
         config: {

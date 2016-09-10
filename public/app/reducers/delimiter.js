@@ -2,7 +2,8 @@ import {
   SENT_REQUEST_PENDING,
   SENT_REQUEST_FULFILLED,
   PROPERTY_RELATION_INFO_FULFILLED,
-  SHOW_SELECTED_DELIMITER_INFO
+  SHOW_SELECTED_DELIMITER_INFO,
+  DELIMITER_CREATION_FULLFILLED
 } from '../actions/delimiters/types';
 import CountryLanguage from 'country-language';
 
@@ -75,6 +76,10 @@ export default function delimiter(state = defaultState, action) {
         territories,
         scripts
       })
+    case DELIMITER_CREATION_FULLFILLED:
+      //console.log(action)
+
+
     default:
       return state;
   }
