@@ -6,7 +6,7 @@ import {
   SHOW_SELECTED_DELIMITER_INFO,
   DELIMITER_CREATION_FULLFILLED
 } from './types';
-import { sendGetRequest, sendPostRequest } from '../../services/api';
+import { sendGetRequest, sendPostRequest, sendDeleteRequest } from '../../services/api';
 
 export const sendRequest = () => {
   return {
@@ -79,5 +79,15 @@ export const createNewDelimiter = (delimiterInfo) => {
     sendPostRequest('delimiter' ,delimiterInfo)
     .then(response => response.json())
     .then(json => dispatch(receiveNewDelimiter(json)))
+  }
+}
+
+export const deleteDelimiter = (property) => {
+  return (dispatch) => {
+    dispatch(sendRequest())
+    sendDeleteRequest(`delimiter/${property}`)
+    .then(response => response.json())
+    .then((json)=>console.log(json))
+    //.then(json => dispatch(receiveNewDelimiter(json)))
   }
 }

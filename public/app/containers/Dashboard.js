@@ -8,6 +8,7 @@ import {
   getPropertyRelationInfo,
   getSingleDelimiterInfo,
   createNewDelimiter,
+  deleteDelimiter
 } from '../actions/delimiters/index';
 import {
   Heading,
@@ -29,6 +30,7 @@ export class Dashboard extends Component {
 
     this.state = {
       isAddDelimiterModalHidden: true,
+      isDeleteDelimiterModalHidden: true,
       addDelimiterForm: {
         name: "",
         value: ""
@@ -40,6 +42,7 @@ export class Dashboard extends Component {
     this.toggleAddDelimiterModal = this.toggleAddDelimiterModal.bind(this);
     this.handleDelimiterFormTyping = this.handleDelimiterFormTyping.bind(this);
     this.submitDelimiter = this.submitDelimiter.bind(this);
+    this.deleteSelectedDelimiter = this.deleteSelectedDelimiter.bind(this);
   }
 
   toggleAddDelimiterModal(){
@@ -48,6 +51,7 @@ export class Dashboard extends Component {
       isAddDelimiterModalHidden: !this.state.isAddDelimiterModalHidden
     })
   }
+
 
   onSelectProperty(property){
     getPropertyRelationInfo(property)(this.props.dispatch)
@@ -62,10 +66,17 @@ export class Dashboard extends Component {
     const { addDelimiterForm } = this.state;
     const patchedObj = {
       property: addDelimiterForm.name,
-      value: addDelimiterForm.value
+      value: addDelimiterForm.value,
     }
     createNewDelimiter(patchedObj)(this.props.dispatch);
-    this.toggleAddDelimiterModal()
+    this.toggleAddDelimiterModal();
+  }
+
+  deleteSelectedDelimiter(){
+    const property = this.props.property.value;
+    property
+    ? deleteDelimiter(property)(this.props.dispatch)
+    : null
   }
 
   handleDelimiterFormTyping(newInputValue,inputName){
@@ -75,7 +86,7 @@ export class Dashboard extends Component {
   }
 
   componentDidMount(property){
-    getDelimiters(property)(this.props.dispatch)
+    getDelimiters(property)(this.props.dispatch);
   }
 
   render(){
@@ -88,10 +99,16 @@ export class Dashboard extends Component {
           onInputChange={(newInputValue,inputName) => this.handleDelimiterFormTyping(newInputValue,inputName)}
           submit={this.submitDelimiter}
         />
-        <Section align='end' pad={{horizontal: 'large'}}>
+        <Section align='end' direction='column' pad={{horizontal: 'large'}}>
           <Button
             label='Add delimiter'
             onClick={this.toggleAddDelimiterModal}
+            primary={true}
+          />
+          <Button
+            label='Delete delimiter'
+            onClick={this.deleteSelectedDelimiter}
+            secondary={true}
           />
         </Section>
         <Section align='center'>

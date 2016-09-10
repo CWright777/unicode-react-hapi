@@ -53,6 +53,32 @@ exports.routes = (server) => {
         },
       },
       {
+        method: 'DELETE',
+        path: '/delimiter/{property}',
+        config: {
+          tags: ['api'],
+          description: 'Delete a delimiter based on its property',
+          handler: (req, reply) => {
+            const Delimiter = req.models.delimiter;
+            const property = req.params.property;
+            console.log(req.params)
+
+            Delimiter.destroy({
+              where: { property },
+            }).then(() => {
+              reply({
+                status: '200',
+              });
+            }, err => {
+              reply({
+                status: '500',
+                message: err,
+              });
+            });
+          },
+        },
+      },
+      {
         method: 'GET',
         path: '/delimiter/{id}/',
         config: {
