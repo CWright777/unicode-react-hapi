@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -13,19 +14,37 @@ import {
   Bricks,
   Tabs,
   Tab,
+  Button,
 } from 'grommet';
 import UnicodeBricks from '../components/UnicodeBricks';
 import SelectorHeading from '../components/SelectorHeading';
 import RelationTabs from '../components/RelationTabs';
+import AddDelimiterModal from '../components/AddDelimiterModal'
 import { SHOW_SELECTED_DELIMITER_INFO } from '../actions/delimiters/types';
 
 export class Dashboard extends Component {
   constructor(props) {
     super(props)
 
+    this.state = {
+      isAddDelimiterModalHidden: true,
+      addDelimiterForm: {
+        name: "",
+        value: ""
+      }
+    }
+
     this.onSelectProperty = this.onSelectProperty.bind(this);
     this.clickBrick = this.clickBrick.bind(this);
+    this.toggleAddDelimiterModal = this.toggleAddDelimiterModal.bind(this);
+    this.handleDelimiterFormTyping = this.handleDelimiterFormTyping.bind(this);
+  }
 
+  toggleAddDelimiterModal(){
+    this.setState({
+      ...this.state,
+      isAddDelimiterModalHidden: !this.state.isAddDelimiterModalHidden
+    })
   }
 
   onSelectProperty(property){
@@ -37,31 +56,55 @@ export class Dashboard extends Component {
     getSingleDelimiterInfo(delimiterId)(this.props.dispatch)
   }
 
+  submitDelimiter(){
+    
+  }
+
+  handleDelimiterFormTyping(newInputValue,inputName){
+    const newState = {...this.state};
+    newState.addDelimiterForm[inputName] = newInputValue;
+    this.setState(newState);
+  }
+
   componentDidMount(property){
     getDelimiters(property)(this.props.dispatch)
   }
 
   render(){
     return (
-      <Section align='center'>
-        <SelectorHeading
-          onChange={this.onSelectProperty}
-          options={this.props.properties}
-          value={this.props.property.value}
+      <Section>
+        <AddDelimiterModal
+          hidden={this.state.isAddDelimiterModalHidden}
+          onClose={this.toggleAddDelimiterModal}
+          values={this.state.addDelimiterForm}
+          onInputChange={(newInputValue,inputName) => this.handleDelimiterFormTyping(newInputValue,inputName)}
+          ref={ref => this.hand = ref}
         />
-        <Section pad='medium' style={{width: '80%'}}>
-          <UnicodeBricks
-            onClick={this.clickBrick}
-            value={this.props.propertyRelationInfo}
+        <Section align='end' pad={{horizontal: 'large'}}>
+          <Button
+            label='Add delimiter'
+            onClick={this.toggleAddDelimiterModal}
           />
-          { this.props.isRelationalTabsHidden
-            ? null
-            :<RelationTabs
-              selectedDelimiter={this.props.selectedDelimiter}
-              languages={this.props.languages}
-              territories={this.props.territories}
-              scripts={this.props.scripts}
-            />}
+        </Section>
+        <Section align='center'>
+          <SelectorHeading
+            onChange={this.onSelectProperty}
+            options={this.props.properties}
+            value={this.props.property.value}
+          />
+          <Section pad='medium' style={{width: '80%'}}>
+            <UnicodeBricks
+              onClick={this.clickBrick}
+              value={this.props.propertyRelationInfo}
+            />
+            { this.props.isRelationalTabsHidden
+              ? null
+              :<RelationTabs
+                languages={this.props.languages}
+                territories={this.props.territories}
+                scripts={this.props.scripts}
+              />}
+          </Section>
         </Section>
       </Section>
     )

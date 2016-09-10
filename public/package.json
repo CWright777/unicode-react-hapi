@@ -38,6 +38,7 @@
     "grommet": "^0.6.11",
     "html-to-react": "^1.0.0",
     "isomorphic-fetch": "^2.2.1",
+    "joi": "^9.0.4",
     "json-loader": "^0.5.4",
     "muicss": "^0.6.7",
     "node-neat": "^1.7.2",

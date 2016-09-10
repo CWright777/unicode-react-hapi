@@ -87,6 +87,10 @@ if(TARGET === 'start' || !TARGET) {
       host: process.env.HOST,
       port: process.env.PORT
     },
+    node: {
+      dns: 'mock',
+      net: 'mock'
+    },
     plugins: [
       new Webpack.HotModuleReplacementPlugin(),
       new NpmInstallPlugin({
