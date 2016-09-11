@@ -1,10 +1,10 @@
 {
-  "name": "kanban_app",
+  "name": "cldr",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack -p --progress",
     "start": "webpack-dev-server"
   },
   "keywords": [],

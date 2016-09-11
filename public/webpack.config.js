@@ -64,7 +64,17 @@ const common = {
       {
         test: /\.jsx?$/,
         loaders: ['babel?cacheDirectory'],
-        include: PATHS.app,
+        include: [
+          PATHS.app,
+        path.normalize(__dirname + `/src/js/`),
+        path.normalize(__dirname + `/node_modules/joi/`),
+        path.normalize(__dirname + `/node_modules/isemail/`),
+        path.normalize(__dirname + `/node_modules/topo/`),
+        path.normalize(__dirname + `/node_modules/hoek/`),
+        path.normalize(__dirname + `/node_modules/react-flex-data/`),
+
+      ]
+
       },
       {
         test: /\.json$/, loader: 'json' 
@@ -101,5 +111,17 @@ if(TARGET === 'start' || !TARGET) {
 }
 
 if(TARGET === 'build') {
-  module.exports = merge(common, {});
+  module.exports = merge(common, {
+    devtool: 'cheap-module-source-map',
+    node: {
+      dns: 'mock',
+      net: 'mock'
+    },
+    plugins: [
+      new Webpack.optimize.CommonsChunkPlugin('common.js'),
+      new Webpack.optimize.DedupePlugin(),
+      new Webpack.optimize.UglifyJsPlugin(),
+      new Webpack.optimize.AggressiveMergingPlugin()
+    ]
+  });
 }

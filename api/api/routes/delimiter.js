@@ -61,7 +61,6 @@ exports.routes = (server) => {
           handler: (req, reply) => {
             const Delimiter = req.models.delimiter;
             const property = req.params.property;
-            console.log(req.params)
 
             Delimiter.destroy({
               where: { property },
@@ -123,47 +122,5 @@ exports.routes = (server) => {
         },
       },
 
-              //include: [{
-                //model:  req.models.locale, as: 'locales',
-                //attributes: ['name','id'],
-                //include: [{
-                  //model: req.models.language,
-                  //attributes: ['name','id'],
-                //}]
-  //server.route([
-   //{
-      //method: 'GET',
-      //path: '/',
-      //config: {
-        //description: 'Gets all address of a user.',
-        //tags: ['api'],
-      //},
-      //handler: (req, reply) => {
-        ////console.log(req.models)
-        //req.models.locale.associate(req.models)
-        //req.models.delimiter.associate(req.models)
-        //const Delimiter = req.models.delimiter;
-        //Delimiter.findOne({
-          //where: {id: 1},
-          //include: [{model:  req.models.locale, as: 'locales'}],
-        //}).then((x)=>{
-          //console.log(x)
-        //})
-      //},
-    //},
   ]);
 };
-            //Delimiter.findAll({
-              //where: query,
-              //attributes: ['property','value','id'],
-              //include: [{
-                //model:  req.models.locale, as: 'locales',
-                //where: {
-                  //delimiters:
-                //}
-                //attributes: ['name','id'],
-                //include: [{
-                  //model: req.models.language,
-                  //attributes: ['name','id'],
-                //}]
-              //}],

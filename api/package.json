@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start": "nodemon server.js --exec babel-node --presets es2015",
-    "test": "nodemon import/import.js --exec babel-node --presets es2015"
+    "install": "nodemon import/import.js --exec babel-node --presets es2015"
   },
   "dependencies": {
     "blipp": "^2.3.0",

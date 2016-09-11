@@ -79,6 +79,7 @@ export const createNewDelimiter = (delimiterInfo) => {
     sendPostRequest('delimiter' ,delimiterInfo)
     .then(response => response.json())
     .then(json => dispatch(receiveNewDelimiter(json)))
+    .then(() => getDelimiters()(dispatch))
   }
 }
 
@@ -87,7 +88,6 @@ export const deleteDelimiter = (property) => {
     dispatch(sendRequest())
     sendDeleteRequest(`delimiter/${property}`)
     .then(response => response.json())
-    .then((json)=>console.log(json))
-    //.then(json => dispatch(receiveNewDelimiter(json)))
+    .then((json) => getDelimiters()(dispatch))
   }
 }
