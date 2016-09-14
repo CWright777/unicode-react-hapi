@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { AppHeader } from '../components/AppHeader';
-import { withRouter } from 'react-router';
 import {
   App,
   Box,

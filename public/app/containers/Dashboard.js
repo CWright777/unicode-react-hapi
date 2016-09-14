@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
@@ -155,8 +154,6 @@ function mapStateToProps(state) {
     propertyRelationInfo: [],
     property: {},
     isRelationalTabsHidden: true,
-    //selectedDelimiter,
-    //languages
   }
   return {
     isFetching,
@@ -179,7 +176,7 @@ function mapDispatchToProps(dispatch) {
   }
 };
 
-export default connect(mapStateToProps,mapDispatchToProps)(withRouter(Dashboard))
+export default connect(mapStateToProps,mapDispatchToProps)(Dashboard)
 
 const styles= {
 }

@@ -26,11 +26,6 @@ const common = {
   },
   module: {
     loaders: [
-      //{
-        //test: /\.scss$/,
-        //loader: "style!css!sass?includePaths[]= " +  sassPaths,
-        //include: PATHS.app,
-      //},
       {
         test: /\.scss$/,
         loader: "style!css!sass?includePaths[]=", //+ [Grommet],//+ [Neat[0][0],Neat[1]],
@@ -104,7 +99,7 @@ if(TARGET === 'start' || !TARGET) {
     plugins: [
       new Webpack.HotModuleReplacementPlugin(),
       new NpmInstallPlugin({
-        save: true // --save
+        save: true 
       })
     ]
   });
