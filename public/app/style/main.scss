@@ -1,0 +1,11 @@
+.selectFixCursor {
+  margin-left: -12px;
+  padding-left: 0;
+  margin-top: -2px;
+}
+
+@import '../../node_modules/grommet/scss/grommet-core/index.scss';
+
+.grommetux-button {
+  min-width: 200px
+}

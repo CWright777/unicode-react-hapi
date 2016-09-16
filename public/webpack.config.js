@@ -28,34 +28,14 @@ const common = {
     loaders: [
       {
         test: /\.scss$/,
-        loader: "style!css!sass?includePaths[]=", //+ [Grommet],//+ [Neat[0][0],Neat[1]],
-        include: PATHS.app
-      },
+        loader: 'style!css!sass?outputStyle=expanded&' +
+          'includePaths[]=' +
+          (encodeURIComponent(path.resolve('./node_modules')))
+       },
       {
         test: /\.css$/,
         loader: 'style!css?sourceMap' 
       },
-      //{
-        //test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-        //loader: "url?limit=10000&mimetype=application/font-woff"
-      //}, {
-        //test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-        //loader: "url?limit=10000&mimetype=application/font-woff"
-      //}, {
-        //test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-        //loader: "url?limit=10000&mimetype=application/octet-stream"
-      //}, {
-        //test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-        //loader: "file"
-      //}, {
-        //test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-        //loader: "url?limit=10000&mimetype=image/svg+xml"
-      //},
-      //{
-        //test: /\.css$/,
-        //loaders: ['style', 'css'],
-        //include: PATHS.app,
-      //},
       {
         test: /\.jsx?$/,
         loaders: ['babel?cacheDirectory'],

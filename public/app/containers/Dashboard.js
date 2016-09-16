@@ -98,17 +98,17 @@ export class Dashboard extends Component {
           onInputChange={(newInputValue,inputName) => this.handleDelimiterFormTyping(newInputValue,inputName)}
           submit={this.submitDelimiter}
         />
-        <Section align='end' direction='column' pad={{horizontal: 'large'}}>
-          <Button
-            label='Add delimiter'
-            onClick={this.toggleAddDelimiterModal}
-            primary={true}
-          />
-          <Button
-            label='Delete delimiter'
-            onClick={this.deleteSelectedDelimiter}
-            secondary={true}
-          />
+        <Section align='end' direction='column' pad={{horizontal: 'large', between: 'small'}}>
+            <Button
+              label='Add delimiter'
+              onClick={this.toggleAddDelimiterModal}
+              primary={true}
+            />
+            <Button
+              label='Delete delimiter'
+              onClick={this.deleteSelectedDelimiter}
+              secondary={true}
+            />
         </Section>
         <Section align='center'>
           <SelectorHeading
